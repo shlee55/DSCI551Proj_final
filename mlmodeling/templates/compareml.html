@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock %}
+{% block mlhomebutton %}<li id = "navbutton"><a href="{% url 'mlm:validationScore' %}"> MACHINE LEARNING </a></li>{% endblock %}
+
+{% block content %}
+    {% if MLValidFile %}
+        <div id="pageheaderPadding">
+            <div id="pageheader">
+                <p>MACHINE LEARNING : CROSS VALIDATION SCORE</p>
+            </div>
+        </div>
+
+        <table id = "scoreTable">
+            <tr>
+                <th id = "scoreTableHeader"><button type="submit"><a href="{% url 'mlm:predict_lr' %}">Logistic Regression</a></button></th>
+                <th id = "scoreTableHeader"><button type="submit"><a href="{% url 'mlm:predict_rf' %}">Random Forest</a></button></th>
+            </tr>
+            <tr>
+                <td id = mlscore>{{ score_lr.score }}</a></td>
+                <td id = mlscore>{{ score_rf.score }}</a></td>
+            </tr>
+        </table>
+    {% else %}
+        <a href="{% url 'prep:meta' %}"><p id="errorSentence"> Error:: File doesn't exist or not loaded properly, please try again. </p><br></a>
+    {% endif %}
+
+
+
+
+    <div id="tipsPadding">
+        <div id="tips">
+            <p>
+                <strong>TIPS!</strong><br>
+                Click either Logistic regression button or Random Forest Button to predict <br>
+            </p>
+        </div>
+    </div>
+
+    <table id="predResult">
+        <tr>
+            <th>Model</th>
+            <th>independent variables</th>
+            <th>result</th>
+        </tr>
+    {% for col in predTable %}
+        <tr>
+            <td>{{col.modelType}}</td>
+            <td>{{col.indepVariable}}</td>
+            <td>{{col.targetVariable}}</td>
+        <tr>
+    {% endfor %}
+
+{% endblock%}

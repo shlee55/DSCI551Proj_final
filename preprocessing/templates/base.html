@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+      <style>
+        ul {
+            list-style-type: none;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0;
+            overflow: hidden;
+            background-color: #990000;
+
+        }
+        li {
+            float: left;
+        }
+
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 20px 20px;
+          text-decoration: none;
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+          background-color: #880000;
+          color: #FFCC00
+        }
+        #navbutton {
+          background-color: #830000;
+        }
+        body {
+          font-family: arial, sans-serif;
+          background-color: white;
+        }
+        header {
+          font-family: arial, sans-serif;
+          background-color: #00308F;
+        }
+        table {
+          width: 100%;
+        }
+        th {
+          border-bottom: 1px solid #ddd;
+          background-color: #04AA6D;
+          color: white;
+          padding: 2px;
+          text-align: center;
+        }
+        th a:hover {
+          background-color: yellow;
+        }
+        td {
+          border-bottom: 1px solid #ddd;
+          padding: 2px;
+          text-align: center;
+        }
+        td a:hover {
+          background-color: blue;
+          color: white;
+        }
+        tr:hover {background-color: yellow;}
+        #pageheaderPadding{
+          background-color: #EAECEE;
+          padding: 10px;
+          margin: 0px;
+        }
+        p {
+
+          padding: 10px;
+          margin: 0px;
+        }
+        a {
+          color: green;
+          text-decoration: none;
+        }
+        ::after, ::before {
+        box-sizing: border-box;
+        }
+        #tipsPadding{
+            font-size: 14px;
+            border-style: dotted;
+            border-color: red;
+            border-width: 3px;
+            background-color: #B0B0B0;
+            bottom: 5px;
+            right: 5px;
+        }
+        #predict_table {
+            width: 70%;
+        }
+        #errorSentence {
+            font-family: fantasy, arial, sans-serif;
+            color: red;
+        }
+        #homeTable {
+          width: 50%;
+        }
+        #homeTableHeader{
+          border-bottom: 1px solid #ddd;
+          background-color: gray;
+          color: white;
+          padding: 2px;
+          text-align: center;
+        }
+        #scoreTable {
+          width: 50%;
+        }
+
+        #home{
+            text-align: center;
+        }
+        .center {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .rightsideBar{
+          float: right;
+        }
+        #predResult{
+            width: 70%;
+        }
+        .text-overflow {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+      </style>
+</head>
+<body>
+    <header>
+        <div id = "container">
+            <nav id="navbar_ml">
+                <ul id="navbar_ml_table">
+                    {% block homebutton %}<li><a href="{% url 'prep:home' %}"> HOME </a></li>{% endblock %}
+                    {% block prepbutton %}<li><a href="{% url 'prep:load' %}"> LOADING </a></li>{% endblock %}
+                    {% block metabutton %}<li><a href="{% url 'prep:meta' %}"> PREPROCESSING </a></li>{% endblock %}
+                    {% block mlhomebutton %}<li><a href="{% url 'mlm:validationScore' %}"> MACHINE LEARNING </a></li>{% endblock %}
+                    <li class = rightsideBar><a href="{% url 'prep:reset' %}"> RESET </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div id ="outer1">
+        <div id ="outer2">
+            <div id ="outer3">
+{% block content %}
+{% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

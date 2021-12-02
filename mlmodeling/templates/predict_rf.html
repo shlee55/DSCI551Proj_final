@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock %}
+{% block mlhomebutton %}<li id = "navbutton"><a href="{% url 'mlm:validationScore' %}"> MACHINE LEARNING </a></li>{% endblock %}
+{% block content %}
+    <div id="pageheaderPadding">
+        <div id="pageheader">
+            <p>MACHINE LEARNING : PREDICTION WITH RANDOM FOREST </p>
+        </div>
+    </div>
+
+    <form method="POST" action={% url 'mlm:predict_rf' %} enctype="multipart/form-data">
+        {% csrf_token %}
+        <table id = "predict_table">
+            {% for key, values in cat_dict.items %}
+                <tr>
+                    <td> {{ key }} : </td>
+                    <td>
+                        <select name= "{{ key }}" >
+                            <option disabled selected value> -- select an option -- </option>
+                            {% for value in values %}
+                                <option value = "{{ value }}">{{ value }}</option>
+                            {% endfor %}
+                        </select><br><br>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% for key, values in cont_dict.items %}
+                <tr>
+                    <td> {{ key }} : </td>
+                    <td>
+                        <input type="number" step="0.01" name = "{{ key }}" placeholder= "{{ values }}"><br><br>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table><br>
+        {% if wrongInput %}
+            <p id="errorSentence"> Error:: Fill out all the inputs above, please try again. </p><br>
+        {% endif %}
+        <button type="submit"> Predict </button>
+    </form>
+
+    {% if result != "" %}
+        <p> Your prediction result of {{targetV}} is {{ result.0 }}</p>
+    {% endif %}
+
+{% endblock%}

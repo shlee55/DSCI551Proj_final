@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}result{% endblock %}
+
+
+{% block content %}
+    {% if MLValidFile %}
+        <div id="pageheaderPadding">
+            <div id="pageheader">
+                <p>MACHINE LEARNING : DOWNLOAD TABLE AND START MACHINE LEARNING</p>
+            </div>
+        </div>
+
+        <form method="POST" action={% url 'mlm:downloadFile' %} enctype="multipart/form-data">
+            {% csrf_token %}
+            <button type="submit">download the file!</button><br>
+        </form>
+
+        <a href="{% url 'mlm:compareml' %}"><button type="submit">run machine learning!</button></a>
+    {% else %}
+        <a href="{% url 'prep:meta' %}"><p id="errorSentence"> Error:: File doesn't exist or not loaded properly, please try again. </p><br></a>
+    {% endif %}
+{% endblock %}

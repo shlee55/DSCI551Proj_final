@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body {
+          font-family: arial, sans-serif;
+          background-color: #5D8AA8;
+        }
+        header {
+          font-family: arial, sans-serif;
+          background-color: #00308F;
+        }
+        h1 {
+          color: blue;
+        }
+        p {
+          border-style: dotted;
+          border-color: red;
+          border-width: 5px;
+          background-color: #EAECEE;
+          padding: 10px;
+          margin: 20px;
+        }
+        a {
+          color: green;
+          text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'prep:home' %}"> Home </a><br>
+        <a href="{% url 'prep:load' %}"> Go to loading home </a><br>
+        <a href="{% url 'prep:meta' %}"> Go to Preprocessing home </a><br>
+    </header>
+{% block content %}
+{% endblock%}
+
+</body>
+</html>

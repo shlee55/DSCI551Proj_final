@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}graph{% endblock %}
+{% block metabutton %}<li id = "navbutton"><a href="{% url 'prep:meta' %}"> PREPROCESSING </a></li>{% endblock %}
+{% block content %}
+
+    {% if targetExist %}
+        <div id="pageheaderPadding">
+            <div id="pageheader">
+                <p> PREPROCESSING: graph on {{colnameValue}} </p>
+            </div>
+        </div><br><br>
+        <button><a href="{% url 'prep:meta' %}"> click to go back to metadata </a></button><br>
+
+        {% if chart1 %}
+            <img src="data:image/png;base64,{{chart1|safe}}"><br>
+        {% endif %}
+
+        {% if chart2 %}
+            <img src="data:image/png;base64,{{chart2|safe}}"><br>
+        {% endif %}
+
+        {% if chart3 %}
+            <img src="data:image/png;base64,{{chart3|safe}}"><br>
+        {% endif %}
+
+        <button><a href="{% url 'prep:meta' %}"> click to go back to metadata </a></button>
+    {% else %}
+        <a href="{% url 'prep:meta' %}"><p id="errorSentence"> Error:: target variable doesn't exist. set your target variable first. </p><br></a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}result{% endblock %}
+{% block metabutton %}<li id = "navbutton"><a href="{% url 'prep:meta' %}"> PREPROCESSING </a></li>{% endblock %}
+{% block content %}
+
+    <div id="bodyPadding">
+        {% if raw_file %}
+        <div id="pageheaderPadding">
+            <div id="pageheader">
+                <p>PREPROCESSING : METADATA</p>
+            </div>
+        </div>
+            <table>
+                <tr>
+                    <th colspan="1">click to see graphs</th>
+                    <th colspan="3">information</th>
+                    <th colspan="4">EDIT these columns</th>
+                </tr>
+                <tr>
+                    <th>column name</th>
+                    <th>values</th>
+                    <th>changeable type</th>
+                    <th>no. N/A</th>
+                    <th><button type="submit"><a href="{% url 'prep:changeType' %}"> type of variable </a></button></th>
+                    <th><button type="submit"><a href="{% url 'prep:target' %}">target variable</a></button></th>
+                    <th><button type="submit"><a href="{% url 'prep:na_handling' %}">N/A value handling</a></button></th>
+                    <th><button type="submit"><a href="{% url 'prep:feature_ext' %}">choose for ML</a></button></th>
+
+                </tr>
+                {% for col in metadata %}
+                    <tr>
+                        <td><a href="{% url 'prep:graph' col.id %}">{{ col.colname }}</a></td>
+                        <td class="text-overflow" style="max-width:600px;">{% if col.datatype == 'Continuous' %}{{ col.contValues }}{% else %}{{ col.catValues }}{% endif %}</td>
+                        <td>{{ col.changeable }}</td>
+                        <td>{{ col.navalue }}</td>
+                        <td><input type="radio"
+                                       {% if col.datatype == 'Continuous' %}checked{% endif %}
+                                       disabled>
+                                <label for="Continuous">Cont</label>
+                                <input type="radio"
+                                       {% if col.datatype == 'Categorical' %}checked{% endif %}
+                                       disabled>
+                                <label for="Categorical">Cat</label>
+                        </td>
+                        <td><input type="radio"
+                                   {% if col.target == True %}checked{% endif %}
+                                   disabled/></td>
+                        <td>{{ col.nahandling }}</td>
+                        <td><input type="checkbox" {% if col.selected == True %} checked {% endif %} disabled/></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <p> file has {{RawfileQuery.columns}} variables and {{RawfileQuery.rows}} rows.</p>
+            <br>
+            {% if not MLValidFile %}
+                <p id="errorSentence"> Error:: Can't move on! check if you set target variable and handled all the columns with N/A values. </p><br>
+            {% endif %}
+            <form method="POST" action={% url 'prep:validationCheck' %} enctype="multipart/form-data">
+                {% csrf_token %}
+                <button type="submit"> This is my final version. Click to start Machine Learning</button>
+            </form>
+            <br>
+
+            <div id="tipsPadding">
+                <div id="tips">
+                    <p>
+                        <strong>TIPS!</strong><br>
+                        Here in Metadata page, you can change: <br><br>
+                        1. type of variable: the type of variable (if the values are numeric) <br>
+                        2. target variable: target variable (choose only from categorical variable) <br>
+                        3. N/A value handling: N/A value handling type (ex. remove rows with N/A value, set to mean value if numeric) <br>
+                        4. choose for ML: select final variables for Machine Learning <br><br>
+                        To change, click the name on green header. edit and save.
+                    </p>
+                </div>
+            </div>
+        {% else %}
+            <p><a href="{% url 'prep:load' %}" id = errorSentence>Error:: You didn't load any file, try again</a></p>
+        {% endif %}
+
+
+    </div>
+
+{% endblock%}

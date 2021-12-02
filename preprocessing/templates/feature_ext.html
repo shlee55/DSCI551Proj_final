@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock %}
+{% block metabutton %}<li id = "navbutton"><a href="{% url 'prep:meta' %}"> PREPROCESSING </a></li>{% endblock %}
+{% block content %}
+    <div id="pageheaderPadding">
+        <div id="pageheader">
+            <p>PREPROCESSING : CHOOSING COLUMNS FOR MACHINE LEARNING</p>
+        </div>
+    </div>
+
+    {% if raw_file %}
+        <form method="POST" action={% url 'prep:feature_ext' %} enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th colspan="1">click to see graphs</th>
+                    <th colspan="3">information</th>
+                    <th colspan="4">EDIT these columns</th>
+                </tr>
+                <tr>
+                    <th>column name</th>
+                    <th>values</th>
+                    <th>changeable type</th>
+                    <th>no. N/A</th>
+                    <th>type of variable</th>
+                    <th>target variable</th>
+                    <th>N/A value handling</th>
+                    <th><button type="submit"> save </button></th>
+                </tr>
+                {% for col in metadata %}
+                    <tr>
+                        <td>{{ col.colname }}</td>
+                        <td class="text-overflow" style="max-width:600px;">{% if col.datatype == 'Continuous' %}{{ col.contValues }}{% else %}{{ col.catValues }}{% endif %}</td>
+                        <td>{{ col.changeable }}</td>
+                        <td>{{ col.navalue }}</td>
+                        <td><input type="radio" name="{{col.colname}}" value="Continuous"
+                                   {% if col.datatype == 'Continuous' %}checked{% endif %}
+                                   disabled>
+                            <label for="Continuous">Cont</label>
+                            <input type="radio" name="{{col.colname}}" value="Categorical"
+                                   {% if col.datatype == 'Categorical' %}checked{% endif %}
+                                   disabled>
+                            <label for="Categorical">Cat</label>
+                        </td>
+                        <td><input type="radio"
+                                   {% if col.target == True %}checked{% endif %}
+                                   disabled/></td>
+                        <td>{{ col.nahandling }}</td>
+                        <td><input type="checkbox"
+                                   name="{{col.colname}}"
+                                   {% if col.selected == True %} checked {% endif %}
+                                   {% if col.target == True %} disabled {% endif %}/><br></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br><br>
+        </form><br><br>
+    {% else %}
+        <p>load failed try again</p>
+    {% endif %}
+
+
+{% endblock%}

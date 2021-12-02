@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}result{% endblock %}
+
+{% block prepbutton %}<li id = "navbutton"><a href="{% url 'prep:load' %}"> LOADING </a></li>{% endblock %}
+
+{% block content %}
+    <div id="pageheaderPadding">
+        <div id="pageheader">
+            <p>LOADING</p>
+        </div>
+    </div>
+
+    <div id="loadingPadding">
+        <div id="loading">
+            <form method="POST" action={% url 'prep:load' %} enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>upload your file here:<br><br>
+                    <input type="file" name="myfile"><br><br>
+                    <button type="submit">Upload file</button><br><br>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="resultPadding">
+        <div id="result">
+          {% if posted %}
+                <p>
+                    {% if loaded %}
+                        csv file successfully uploaded<br><br>
+                        <button><a href="{% url 'prep:meta' %}"> click to see the metadata </a></button>
+                    {% else %}
+                        please try other file
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="tipsPadding">
+        <div id="tips">
+            <p>
+                <strong>TIPS!</strong><br>
+                Your file must be a comma separated csv file. Otherwise, it will not be working
+            </p>
+        </div>
+    </div>
+
+{% endblock%}

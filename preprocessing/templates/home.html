@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock %}
+{% block homebutton %}<li id = "navbutton"><a href="{% url 'prep:home' %}"> HOME </a></li>{% endblock %}
+{% block content %}
+    <div id="pageheaderPadding">
+        <div id="pageheader">
+            <p>HOME</p>
+        </div>
+    </div>
+
+
+    <div id="homePadding">
+        <div id="home">
+            <h1 > Predictive Analytics Tool Based on Hospitalization Data <br>for Efficient Healthcare Management</h1>
+            <h2>DSCI 551 Final Project</h2>
+            <p> Web UI is created by Django.<br>
+                Django Static and Media files are stored in Amazon S3 (user uploaded file is also in S3!)<br>
+                Pyspark and Pandas were used mostly for Preprocessing<br>
+                Scikit-learn was used mostly for Machine learning<br>
+            </p>
+            <table id = homeTable class="center">
+                <tr>
+                    <th id = homeTableHeader>Jun Lee</th>
+                    <th id = homeTableHeader>Sungho Lee</th>
+                </tr>
+                <tr>
+                    <td>slee2424@usc.edu</td>
+                    <td>sunghol@usc.edu</td>
+                </tr>
+                <tr>
+                    <td>Public Health Data Science</td>
+                    <td>Applied Data Science</td>
+                </tr>
+            </table> <br><br>
+
+            {% if posted %}
+                <p> user name : "{{username}}" </p>
+                <button type="submit"><a href="{% url 'prep:load' %}"> next </a></button>
+            {% else %}
+            <form method="POST" action={% url 'prep:home'  %} enctype="multipart/form-data">
+                {% csrf_token %}
+                <strong>!!TYPE USER NAME!!</strong><br>
+                <p>type ANY username for using this tool.<br>
+                    use at least 8 letters long: <br>
+                    <input type="text" name="username" minlength="8"><br><br>
+                    <button type="submit">Start</button><br><br>
+                </p>
+            </form>
+            {% endif %}
+            <br><br><br><br>
+            <strong>TRIAL</strong><br>
+            <p> check these samples and try running machine learning with them!</p>
+            <a href="https://gist.github.com/curran/a08a1080b88344b0c8a7"> Iris Dataset source page: </a>
+            <button type="submit"><a href="https://slfolder.s3.us-west-1.amazonaws.com/sample_file/iris_sample.csv"> File download </a></button><br>
+            <a href="https://www.kaggle.com/c/titanic/data"> Titanic Dataset source page: </a>
+            <button type="submit"><a href="https://slfolder.s3.us-west-1.amazonaws.com/sample_file/titanic_sample.csv"> File download </a></button>
+        </div>
+    </div>
+
+{% endblock%}
